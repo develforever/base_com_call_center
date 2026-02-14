@@ -1,0 +1,11 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-neutral-0: #111;
+}
+
+@layer base {
+  h1 {
+    @apply text-3xl font-bold underline;
+  }
+}

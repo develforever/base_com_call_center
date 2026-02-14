@@ -1,0 +1,33 @@
+import { vi } from 'vitest';
+import { config } from '@vue/test-utils'
+import PrimeVue from 'primevue/config'
+import { createTestingPinia } from '@pinia/testing'
+
+Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: vi.fn().mockImplementation(query => ({
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        dispatchEvent: vi.fn(),
+    })),
+});
+
+config.global.plugins = [
+    PrimeVue,
+    createTestingPinia({ createSpy: vi.fn }),
+]
+
+config.global.mocks = {
+    $route: { query: {} },
+    $router: { push: vi.fn() }
+}
+
+config.global.stubs = {
+    'router-link': true,
+    'router-view': true
+}
