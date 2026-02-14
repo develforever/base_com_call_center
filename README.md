@@ -1,0 +1,1 @@
+Porjekt jest w katalogu `frontend`.
