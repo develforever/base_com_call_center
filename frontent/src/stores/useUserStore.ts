@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
-interface User {
+export interface User {
   id: number
   name: string
   email: string

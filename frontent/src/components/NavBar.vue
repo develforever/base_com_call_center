@@ -83,11 +83,13 @@ import Menubar from 'primevue/menubar'
 
 import { useUserStore } from '@/stores/useUserStore'
 import { Avatar, Button } from 'primevue'
-import router from '@/router'
+import { useRouter } from 'vue-router'
 
 interface Props {
   title?: string
 }
+
+const router = useRouter()
 
 withDefaults(defineProps<Props>(), {
   title: 'Call Center',

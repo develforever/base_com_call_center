@@ -99,10 +99,23 @@ const getPriorityLabel = (priority: TicketPriority): string => {
 
 <template>
   <main>
-    <DataTable :value="store.tickets" v-model:filters="filters" :globalFilterFields="['id', 'customer.name', 'title']"
-      :loading="store.isLoading" dataKey="id" filterDisplay="row" paginator :rows="10" sortMode="single"
-      :sortField="'priorityValue'" :sortOrder="-1" @row-click="onRowClick" rowHover class="cursor-pointer-table"
-      responsiveLayout="stack">
+    <DataTable
+      :value="store.tickets"
+      v-model:filters="filters"
+      :globalFilterFields="['id', 'customer.name', 'title']"
+      :loading="store.isLoading"
+      dataKey="id"
+      filterDisplay="row"
+      paginator
+      :rows="10"
+      sortMode="single"
+      :sortField="'priorityValue'"
+      :sortOrder="-1"
+      @row-click="onRowClick"
+      rowHover
+      class="cursor-pointer-table"
+      responsiveLayout="stack"
+    >
       <template #empty> No tickets found. </template>
       <template #header>
         <div class="flex justify-between items-center gap-4">
@@ -110,8 +123,11 @@ const getPriorityLabel = (priority: TicketPriority): string => {
 
           <IconField iconPosition="left">
             <InputIcon class="pi pi-search" />
-            <InputText v-model="filters['global'].value" placeholder="Szukaj (ID, klient, temat...)"
-              class="w-full md:w-80" />
+            <InputText
+              v-model="filters['global'].value"
+              placeholder="Szukaj (ID, klient, temat...)"
+              class="w-full md:w-80"
+            />
           </IconField>
         </div>
       </template>
@@ -130,20 +146,36 @@ const getPriorityLabel = (priority: TicketPriority): string => {
       </Column>
       <Column field="title" header="Temat">
         <template #filter="{ filterModel, filterCallback }">
-          <InputText v-model="filterModel.value" type="text" @input="filterCallback()" placeholder="Search by name" />
+          <InputText
+            v-model="filterModel.value"
+            type="text"
+            @input="filterCallback()"
+            placeholder="Search by name"
+          />
         </template>
       </Column>
       <Column field="status" header="Status">
         <template #body="slotProps">
-          <Tag :value="getStatusLabel(slotProps.data.status as TicketStatus)"
-            :severity="getStatusSeverity(slotProps.data.status as TicketStatus)" />
+          <Tag
+            :value="getStatusLabel(slotProps.data.status as TicketStatus)"
+            :severity="getStatusSeverity(slotProps.data.status as TicketStatus)"
+          />
         </template>
         <template #filter="{ filterModel, filterCallback }">
-          <Select v-model="filterModel.value" @change="filterCallback()" :options="statuses" optionLabel="label"
-            optionValue="value" placeholder="Wybierz status" showClear>
+          <Select
+            v-model="filterModel.value"
+            @change="filterCallback()"
+            :options="statuses"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Wybierz status"
+            showClear
+          >
             <template #option="slotProps">
-              <Tag :value="slotProps.option.label"
-                :severity="getStatusSeverity(slotProps.option.value as TicketStatus)" />
+              <Tag
+                :value="slotProps.option.label"
+                :severity="getStatusSeverity(slotProps.option.value as TicketStatus)"
+              />
             </template>
           </Select>
         </template>
@@ -151,28 +183,49 @@ const getPriorityLabel = (priority: TicketPriority): string => {
 
       <Column field="priority" header="Priorytet" :sortField="'priorityValue'" sortable>
         <template #body="{ data }">
-          <Tag :value="getPriorityLabel(data.priority as TicketPriority)"
-            :severity="getPrioritySeverity(data.priority as TicketPriority)" />
+          <Tag
+            :value="getPriorityLabel(data.priority as TicketPriority)"
+            :severity="getPrioritySeverity(data.priority as TicketPriority)"
+          />
         </template>
         <template #filter="{ filterModel, filterCallback }">
-          <Select v-model="filterModel.value" @change="filterCallback()" :options="priorities" optionLabel="label"
-            optionValue="value" placeholder="Wybierz priorytet" showClear>
+          <Select
+            v-model="filterModel.value"
+            @change="filterCallback()"
+            :options="priorities"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Wybierz priorytet"
+            showClear
+          >
             <template #option="slotProps">
-              <Tag :value="slotProps.option.label"
-                :severity="getPrioritySeverity(slotProps.option.value as TicketPriority)" />
+              <Tag
+                :value="slotProps.option.label"
+                :severity="getPrioritySeverity(slotProps.option.value as TicketPriority)"
+              />
             </template>
           </Select>
         </template>
       </Column>
       <Column field="assignedTo" header="Przypisany do">
         <template #filter="{ filterModel, filterCallback }">
-          <InputText v-model="filterModel.value" type="text" @input="filterCallback()" placeholder="Search by name" />
+          <InputText
+            v-model="filterModel.value"
+            type="text"
+            @input="filterCallback()"
+            placeholder="Search by name"
+          />
         </template>
       </Column>
       <Column header="Akcje" style="min-width: 12rem">
         <template #body="slotProps">
           <div class="flex gap-2">
-            <Button icon="pi pi-file-edit" severity="info" outlined @click="viewTicket(slotProps.data)">
+            <Button
+              icon="pi pi-file-edit"
+              severity="info"
+              outlined
+              @click="viewTicket(slotProps.data)"
+            >
             </Button>
           </div>
         </template>

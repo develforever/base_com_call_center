@@ -16,8 +16,8 @@ const initialValues = reactive({
   password: '',
 })
 
-const resolver = ({ values }) => {
-  const errors = {}
+const resolver = ({ values }: { values: Record<string, string> }) => {
+  const errors: Record<string, { message: string }[]> = {}
 
   if (!values.username) {
     errors.username = [{ message: 'Username is required.' }]
@@ -33,11 +33,11 @@ const resolver = ({ values }) => {
   }
 }
 
-const onFormSubmit = ({ values, valid }) => {
+const onFormSubmit = ({ values, valid }: { values: Record<string, string>; valid: boolean }) => {
   if (valid) {
     const { login } = useUserStore()
 
-    const loggedIn = login(values.username, values.password)
+    const loggedIn = login(values.username ?? '', values.password ?? '')
 
     if (loggedIn) {
       toast.add({
@@ -59,18 +59,24 @@ const onFormSubmit = ({ values, valid }) => {
 
 <template>
   <div class="flex items-center flex-col mt-6 gap-8">
-    <Form v-slot="$form" :initialValues :resolver @submit="onFormSubmit" class="flex flex-col gap-4 w-full sm:w-56">
+    <Form
+      v-slot="$form"
+      :initialValues="initialValues"
+      :resolver="resolver"
+      @submit="onFormSubmit"
+      class="flex flex-col gap-4 w-full sm:w-56"
+    >
       <div class="flex flex-col gap-1">
         <InputText name="username" type="text" placeholder="Username" fluid />
         <Message v-if="$form.username?.invalid" severity="error" size="small" variant="simple">{{
           $form.username.error?.message
-          }}</Message>
+        }}</Message>
       </div>
       <div class="flex flex-col gap-1">
         <InputText name="password" type="password" placeholder="Password" fluid />
         <Message v-if="$form.password?.invalid" severity="error" size="small" variant="simple">{{
           $form.password.error?.message
-          }}</Message>
+        }}</Message>
       </div>
       <Button type="submit" severity="secondary" label="Login" />
     </Form>
