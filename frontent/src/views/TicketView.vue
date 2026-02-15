@@ -1,130 +1,128 @@
 <script setup lang="ts">
-import { priorityLabels, statusLabels, useTicketsStore } from '@/stores/useTicketsStore'
-import { Button, Card, InputText, Message, Select, Textarea } from 'primevue'
-import { onMounted, computed, ref, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useToast } from 'primevue'
+import { useTicketsStore, priorityLabels, statusLabels } from '@/stores/useTicketsStore'
+
+
+import { Button, Card, InputText, Message, Select, Textarea } from 'primevue'
 import PageNav from '@/components/PageNav.vue'
+import type { Ticket } from '@/types/types'
+
+const STATUS_OPTIONS = Object.entries(statusLabels).map(([value, label]) => ({ label, value }))
+const PRIORITY_OPTIONS = Object.entries(priorityLabels).map(([value, label]) => ({ label, value }))
 
 const toast = useToast()
 const router = useRouter()
+const route = useRoute()
 const store = useTicketsStore()
-const { id } = useRoute().params
-const ticket = computed(() => store.ticket)
+
+const ticketId = Number(route.params.id)
 const isSaving = ref(false)
 
-const statuses = (Object.keys(statusLabels) as Array<keyof typeof statusLabels>).map((key) => ({
-  label: statusLabels[key],
-  value: key,
-}))
-const priorities = (Object.keys(priorityLabels) as Array<keyof typeof priorityLabels>).map(
-  (key) => ({
-    label: priorityLabels[key],
-    value: key,
-  }),
-)
+const ticketDraft = ref<Ticket | null>(null)
 
-onMounted(() => {
-  store.fetchTicket(Number(new Number(id)))
+watch(() => store.ticket, (newTicket) => {
+    if (newTicket) ticketDraft.value = JSON.parse(JSON.stringify(newTicket))
+}, { immediate: true })
+
+onMounted(async () => {
+    if (isNaN(ticketId)) {
+        toast.add({ severity: 'error', summary: 'Błąd', detail: 'Nieprawidłowe ID' })
+        return
+    }
+    await store.fetchTicket(ticketId)
 })
 
 onUnmounted(() => {
-  store.resetTicket()
+    store.resetTicket()
 })
 
 const handleSave = async () => {
-  if (!ticket.value) return
+    if (!ticketDraft.value) return
 
-  isSaving.value = true
-  const success = await store.updateTicket(ticket.value)
-  isSaving.value = false
-
-  if (success) {
-    toast.add({
-      severity: 'success',
-      summary: 'Zapisano',
-      detail: 'Zmiany zapisane',
-      life: 3000,
-    })
-    router.back()
-  }
+    isSaving.value = true
+    try {
+        const success = await store.updateTicket(ticketDraft.value)
+        if (success) {
+            toast.add({ severity: 'success', summary: 'Zapisano', detail: 'Zmiany zostały zapisane', life: 3000 })
+            router.back()
+        }
+    } catch (error) {
+        toast.add({ severity: 'error', summary: 'Błąd zapisu', detail: 'Spróbuj ponownie później' })
+    } finally {
+        isSaving.value = false
+    }
 }
+
+const formatDate = (date: string) => new Date(date).toLocaleString()
 </script>
 
 <template>
-  <main>
-    <PageNav />
+    <main class="p-4">
+        <PageNav />
 
-    <div class="ticket-details-container" v-if="ticket">
-      <Card>
-        <template #title>Zgłoszenie #{{ ticket.id }}</template>
+        <div v-if="ticketDraft" class="max-w-4xl mx-auto mt-4">
+            <Card shadow-lg>
+                <template #title>Zgłoszenie #{{ ticketDraft.id }}</template>
 
-        <template #subtitle>
-          Klient: {{ ticket.customer.name }},
-          <a :href="`mailto:${ticket.customer.email}`">{{ ticket.customer.email }}</a
-          >, <a :href="`tel:${ticket.customer.phone}`">{{ ticket.customer.phone }}</a> <br />
-          | Utworzono: {{ new Date(ticket.createdAt).toLocaleString() }} | Zmieniono:
-          {{ new Date(ticket.updatedAt).toLocaleString() }} | Przypisany do: {{ ticket.assignedTo }}
-        </template>
+                <template #subtitle>
+                    <div class="flex flex-wrap gap-2 text-sm">
+                        <span>Klient: <strong>{{ ticketDraft.customer.name }}</strong></span>
+                        <a :href="`mailto:${ticketDraft.customer.email}`" class="text-blue-600 underline">{{
+                            ticketDraft.customer.email }}</a>
+                        <a :href="`tel:${ticketDraft.customer.phone}`" class="text-blue-600 underline">{{
+                            ticketDraft.customer.phone }}</a>
+                    </div>
+                    <div class="mt-2 text-xs text-gray-500">
+                        Utworzono: {{ formatDate(ticketDraft.createdAt) }} |
+                        Zmieniono: {{ formatDate(ticketDraft.updatedAt) }} |
+                        Agent: {{ ticketDraft.assignedTo }}
+                    </div>
+                </template>
 
-        <template #content>
-          <div class="flex flex-col gap-4">
-            <div class="field">
-              <label for="title" class="font-bold block mb-2">Tytuł zgłoszenia</label>
-              <InputText id="title" v-model="ticket.title" fluid />
-            </div>
+                <template #content>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="col-span-full">
+                            <label for="title" class="font-semibold block mb-2">Tytuł zgłoszenia</label>
+                            <InputText id="title" v-model="ticketDraft.title" fluid />
+                        </div>
 
-            <div class="formgrid grid">
-              <div class="field col">
-                <label class="font-bold block mb-2">Status</label>
-                <Select
-                  v-model="ticket.status"
-                  :options="statuses"
-                  optionLabel="label"
-                  optionValue="value"
-                  fluid
-                />
-              </div>
+                        <div class="field">
+                            <label class="font-semibold block mb-2">Status</label>
+                            <Select v-model="ticketDraft.status" :options="STATUS_OPTIONS" optionLabel="label"
+                                optionValue="value" fluid />
+                        </div>
 
-              <div class="field col">
-                <label class="font-bold block mb-2">Priorytet</label>
-                <Select
-                  v-model="ticket.priority"
-                  :options="priorities"
-                  optionLabel="label"
-                  optionValue="value"
-                  fluid
-                  class="capitalize"
-                />
-              </div>
-            </div>
+                        <div class="field">
+                            <label class="font-semibold block mb-2">Priorytet</label>
+                            <Select v-model="ticketDraft.priority" :options="PRIORITY_OPTIONS" optionLabel="label"
+                                optionValue="value" fluid />
+                        </div>
 
-            <div class="field">
-              <label for="desc" class="font-bold block mb-2">Opis problemu</label>
-              <Textarea id="desc" v-model="ticket.description" rows="5" fluid />
-            </div>
-          </div>
-        </template>
+                        <div class="col-span-full">
+                            <label for="desc" class="font-semibold block mb-2">Opis problemu</label>
+                            <Textarea id="desc" v-model="ticketDraft.description" rows="5" fluid auto-resize />
+                        </div>
+                    </div>
+                </template>
 
-        <template #footer>
-          <div class="flex justify-end gap-2">
-            <Button label="Anuluj" severity="secondary" outlined @click="router.back()" />
-            <Button
-              label="Zapisz zmiany"
-              icon="pi pi-check"
-              :loading="isSaving"
-              @click="handleSave"
-            />
-          </div>
-        </template>
-      </Card>
-    </div>
+                <template #footer>
+                    <div class="flex justify-end gap-3">
+                        <Button label="Anuluj" severity="secondary" text @click="router.back()" />
+                        <Button label="Zapisz zmiany" icon="pi pi-check" :loading="isSaving" @click="handleSave" />
+                    </div>
+                </template>
+            </Card>
+        </div>
 
-    <div v-else-if="store.isLoading">
-      <Message severity="info">Wczytywanie zgłoszenia...</Message>
-    </div>
-    <div v-else class="p-4">
-      <Message severity="error">Nie znaleziono zgłoszenia o podanym ID #{{ id }}.</Message>
-    </div>
-  </main>
+        <div v-else-if="store.isLoading" class="flex justify-center p-10">
+            <Message severity="info">Wczytywanie danych...</Message>
+        </div>
+
+        <div v-else class="max-w-md mx-auto mt-10 text-center">
+            <Message severity="error">Nie znaleziono zgłoszenia #{{ ticketId }}</Message>
+            <Button label="Wróć do listy" class="mt-4" @click="router.push('/tickets')" />
+        </div>
+    </main>
 </template>
