@@ -1,10 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { TicketService } from '@/services/useTicketService'
+import { TicketsService } from '@/services/useTicketService'
 import { TicketPriority, TicketStatus, type Ticket } from '@/types/types'
 
 vi.unmock('@/services/useTicketService')
 
-describe('TicketService', () => {
+describe('TicketsService', () => {
   beforeEach(() => {
     vi.mocked(fetch).mockReset()
   })
@@ -33,9 +33,9 @@ describe('TicketService', () => {
       json: async () => mockTickets,
     } as Response)
 
-    const result = await TicketService.getAll()
+    const result = await TicketsService.getAll()
 
-    expect(fetch).toHaveBeenCalledWith('/tickets.json')
+    expect(fetch).toHaveBeenCalledWith('/api/tickets.json')
     expect(result).toEqual(mockTickets)
   })
 
@@ -62,7 +62,7 @@ describe('TicketService', () => {
         },
       ],
     } as Response)
-    await expect(TicketService.getAll()).rejects.toThrow('JSON validation failed')
+    await expect(TicketsService.getAll()).rejects.toThrow('JSON validation failed')
 
     expect(consoleSpy).toHaveBeenCalledWith(
       expect.stringContaining('Error in field: 0.description'),

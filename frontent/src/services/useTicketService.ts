@@ -23,10 +23,10 @@ export const TicketArraySchema = z.array(TicketSchema)
 
 export type TicketSchemaType = z.infer<typeof TicketSchema>
 
-export const TicketService = {
+export const TicketsService = {
   async getAll(): Promise<Ticket[]> {
     await new Promise((resolve) => setTimeout(resolve, 1000))
-    const response = await fetch('/tickets.json')
+    const response = await fetch('/api/tickets.json')
 
     const rawData = await response.json()
 

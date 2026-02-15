@@ -1,6 +1,8 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import { TicketService } from '@/services/useTicketService'
+// TODO: if implemented and tested then use axios based api
+//import { TicketsService } from '@/api/services/tickets.service'
+import { TicketsService } from '@/services/useTicketService'
 import { TicketPriority } from '@/types/types'
 import { TicketStatus } from '@/types/types'
 import type { Ticket } from '@/types/types'
@@ -52,7 +54,12 @@ export const useTicketsStore = defineStore('tickets', () => {
 
     try {
       if (tickets.value.length === 0) {
-        const data: Ticket[] = await TicketService.getAll()
+        const data: Ticket[] = await TicketsService.getAll()
+
+        if (!data || data.length === 0) {
+          throw new Error('No tickets found')
+        }
+
         tickets.value = data.map((ticket) => ({
           ...ticket,
           priorityValue: priorityWeights[ticket.priority],

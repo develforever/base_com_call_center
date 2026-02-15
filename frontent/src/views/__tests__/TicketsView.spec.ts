@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import TicketsView from '../TicketsView.vue'
 import { useTicketsStore } from '@/stores/useTicketsStore'
-import { TicketService } from '@/services/useTicketService'
+import { TicketsService } from '@/services/useTicketService'
 import { TicketPriority, TicketStatus, type Ticket } from '@/types/types'
 
 describe('TicketsView', () => {
@@ -30,7 +30,7 @@ describe('TicketsView', () => {
       },
     ]
 
-    vi.mocked(TicketService.getAll).mockResolvedValue(mockTickets)
+    vi.mocked(TicketsService.getAll).mockResolvedValue(mockTickets)
 
     const wrapper = mount(TicketsView)
 
@@ -38,7 +38,7 @@ describe('TicketsView', () => {
 
     await store.fetchTickets()
 
-    expect(TicketService.getAll).toHaveBeenCalled()
+    expect(TicketsService.getAll).toHaveBeenCalled()
     expect(store.tickets).toEqual(mockTickets.map((ticket) => ({ ...ticket, priorityValue: 3 })))
     expect(wrapper.text()).toContain('Testowy ticket')
   })

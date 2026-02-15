@@ -34,7 +34,7 @@ vi.mock('vue-router', async (importOriginal) => {
 })
 
 vi.mock('@/services/useTicketService', () => ({
-  TicketService: {
+  TicketsService: {
     getAll: vi.fn(),
   },
 }))
