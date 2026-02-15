@@ -2,19 +2,14 @@
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Tag from 'primevue/tag'
-import {
-  useTicketsStore,
-  TicketStatus,
-  TicketPriority,
-  type Ticket,
-  statusLabels,
-  priorityLabels,
-} from '@/stores/useTicketsStore'
+import { useTicketsStore, statusLabels, priorityLabels } from '@/stores/useTicketsStore'
 import { onMounted, ref } from 'vue'
 import { Button, IconField, InputIcon, InputText, Select } from 'primevue'
 import { FilterMatchMode } from '@primevue/core/api'
 import { useRoute, useRouter } from 'vue-router'
 import { RouteNames } from '@/router'
+import { TicketPriority, TicketStatus } from '@/types/types'
+import type { Ticket } from '@/types/types'
 
 const store = useTicketsStore()
 

@@ -78,7 +78,10 @@ onMounted(() => {
             <div class="flex flex-col items-center py-4">
               <i class="pi pi-exclamation-triangle text-red-500 text-3xl mb-3 animate-pulse"></i>
 
-              <RouterLink :to="{ name: 'tickets', query: { priority: 'high' } }">
+              <RouterLink
+                class="homeboard__status-item__link"
+                :to="{ name: 'tickets', query: { priority: 'high' } }"
+              >
                 <span class="text-4xl font-black text-slate-800">{{
                   ticketsStore.highPriorityTickets.length
                 }}</span>

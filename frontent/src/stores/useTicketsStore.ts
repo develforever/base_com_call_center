@@ -1,39 +1,9 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-
-export enum TicketStatus {
-  NEW = 'new',
-  OPEN = 'open',
-  CLOSED = 'closed',
-  PENDING = 'pending',
-  ON_HOLD = 'on_hold',
-  CANCELLED = 'cancelled',
-}
-
-export enum TicketPriority {
-  LOW = 'low',
-  MEDIUM = 'medium',
-  HIGH = 'high',
-}
-
-export interface Customer {
-  name: string
-  email: string
-  phone: string
-}
-
-export interface Ticket {
-  id: number
-  title: string
-  description: string
-  status: TicketStatus
-  priority: TicketPriority
-  createdAt: string
-  updatedAt: string
-  priorityValue?: number
-  assignedTo?: string
-  customer: Customer
-}
+import { TicketService } from '@/services/useTicketService'
+import { TicketPriority } from '@/types/types'
+import { TicketStatus } from '@/types/types'
+import type { Ticket } from '@/types/types'
 
 export const priorityWeights: Record<TicketPriority, number> = {
   [TicketPriority.LOW]: 1,
@@ -82,10 +52,7 @@ export const useTicketsStore = defineStore('tickets', () => {
 
     try {
       if (tickets.value.length === 0) {
-        await new Promise((resolve) => setTimeout(resolve, 1000))
-
-        const response = await fetch('/tickets.json')
-        const data: Ticket[] = await response.json()
+        const data: Ticket[] = await TicketService.getAll()
         tickets.value = data.map((ticket) => ({
           ...ticket,
           priorityValue: priorityWeights[ticket.priority],

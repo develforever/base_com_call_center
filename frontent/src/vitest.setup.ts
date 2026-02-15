@@ -33,9 +33,15 @@ vi.mock('vue-router', async (importOriginal) => {
   }
 })
 
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: vi.fn().mockImplementation((query) => ({
+vi.mock('@/services/useTicketService', () => ({
+  TicketService: {
+    getAll: vi.fn(),
+  },
+}))
+
+vi.stubGlobal(
+  'matchMedia',
+  vi.fn().mockImplementation((query) => ({
     matches: false,
     media: query,
     onchange: null,
@@ -45,18 +51,17 @@ Object.defineProperty(window, 'matchMedia', {
     removeEventListener: vi.fn(),
     dispatchEvent: vi.fn(),
   })),
-})
+)
 
 vi.stubGlobal('fetch', vi.fn())
 
 beforeEach(() => {
-  vi.clearAllMocks()
-  mockRoute.query = {}
-  mockRoute.params = {}
-  mockRoute.path = '/'
-  mockRouter.currentRoute.value.path = '/'
-
-  vi.mocked(fetch).mockReset()
+  // vi.clearAllMocks()
+  // mockRoute.query = {}
+  // mockRoute.params = {}
+  // mockRoute.path = '/'
+  // mockRouter.currentRoute.value.path = '/'
+  // vi.mocked(fetch).mockReset()
 })
 
 config.global.plugins = [
