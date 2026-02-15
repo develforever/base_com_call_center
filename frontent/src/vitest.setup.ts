@@ -39,6 +39,16 @@ vi.mock('@/services/useTicketService', () => ({
   },
 }))
 
+vi.mock('primevue', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('primevue')>()
+  return {
+    ...actual,
+    useToast: vi.fn(() => ({
+      add: vi.fn(),
+    })),
+  }
+})
+
 vi.stubGlobal(
   'matchMedia',
   vi.fn().mockImplementation((query) => ({

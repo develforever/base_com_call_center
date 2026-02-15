@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import HomeView from '@/views/HomeView.vue'
 import { useUserStore } from '@/stores/useUserStore'
 
 export enum RouteNames {
@@ -24,7 +24,7 @@ const router = createRouter({
     {
       path: '/tickets',
       name: RouteNames.Tickets,
-      component: () => import('../views/TicketsView.vue'),
+      component: () => import('@/views/TicketsView.vue'),
       meta: {
         requiresAuth: true,
       },
@@ -32,17 +32,17 @@ const router = createRouter({
     {
       path: '/login',
       name: RouteNames.Login,
-      component: () => import('../views/LoginView.vue'),
+      component: () => import('@/views/LoginView.vue'),
     },
     {
       path: '/logout',
       name: RouteNames.Logout,
-      component: () => import('../views/LogoutView.vue'),
+      component: () => import('@/views/LogoutView.vue'),
     },
     {
       path: '/ticket/:id',
       name: RouteNames.Ticket,
-      component: () => import('../views/TicketView.vue'),
+      component: () => import('@/views/TicketView.vue'),
       meta: {
         requiresAuth: true,
       },

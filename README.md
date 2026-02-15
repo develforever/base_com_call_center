@@ -1,4 +1,5 @@
-Projekt jest w katalogu `frontend`.
+
+Projekt aplikacji obsługi call center na bazie Vue 3, Pinia, Tailwind, PrimeVue, Vitest
 
 Uruchomienie:
 

@@ -4,12 +4,12 @@ import PrimeVue from 'primevue/config'
 import Aura from '@primeuix/themes/aura'
 import ToastService from 'primevue/toastservice'
 import Tooltip from 'primevue/tooltip'
-import App from './App.vue'
-import router from './router'
+import App from '@/App.vue'
+import router from '@/router'
 
 import 'primeicons/primeicons.css'
-import './assets/tailwind.css'
-import './assets/main.scss'
+import '@/assets/tailwind.css'
+import '@/assets/main.scss'
 
 const app = createApp(App)
 

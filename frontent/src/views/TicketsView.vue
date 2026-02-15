@@ -1,44 +1,49 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { FilterMatchMode } from '@primevue/core/api'
-import { useTicketsStore, statusLabels, priorityLabels } from '@/stores/useTicketsStore'
+import { priorityLabels, statusLabels, useTicketsStore } from '@/stores/useTicketsStore'
 import { TicketPriority, TicketStatus } from '@/types/types'
 import type { Ticket } from '@/types/types'
-
-import { DataTable, Column, Tag, Button, IconField, InputIcon, InputText, Select } from 'primevue'
 import { RouteNames } from '@/router'
+import {
+  PRIORITY_SEVERITY,
+  STATUS_SEVERITY,
+  statusOptions,
+  priorityOptions,
+} from '@/composables/useTicketFormatter'
 
-const STATUS_SEVERITY: Record<TicketStatus, string> = {
-  [TicketStatus.OPEN]: 'danger',
-  [TicketStatus.PENDING]: 'warn',
-  [TicketStatus.CLOSED]: 'success',
-  [TicketStatus.NEW]: 'info',
-  [TicketStatus.ON_HOLD]: 'secondary',
-  [TicketStatus.CANCELLED]: 'secondary',
-}
+import {
+  DataTable,
+  Column,
+  Tag,
+  Button,
+  IconField,
+  InputIcon,
+  InputText,
+  Select,
+  useToast,
+} from 'primevue'
 
-const PRIORITY_SEVERITY: Record<TicketPriority, string> = {
-  [TicketPriority.LOW]: 'success',
-  [TicketPriority.MEDIUM]: 'warn',
-  [TicketPriority.HIGH]: 'danger',
-}
-
+const toast = useToast()
 const store = useTicketsStore()
 const router = useRouter()
 const route = useRoute()
 
-const statusOptions = Object.entries(statusLabels).map(([value, label]) => ({ label, value }))
-const priorityOptions = Object.entries(priorityLabels).map(([value, label]) => ({ label, value }))
+const queryStatus = computed(() => route.query.status as TicketStatus)
+const queryPriority = computed(() => route.query.priority as TicketPriority)
 
 const filters = ref({
-  global: { value: (route.query.search as string) || null, matchMode: FilterMatchMode.CONTAINS },
+  global: {
+    value: (route.query.search as string) || null,
+    matchMode: FilterMatchMode.CONTAINS,
+  },
   status: {
-    value: (route.query.status as TicketStatus) || null,
+    value: queryStatus.value,
     matchMode: FilterMatchMode.EQUALS,
   },
   priority: {
-    value: (route.query.priority as TicketPriority) || null,
+    value: queryPriority.value,
     matchMode: FilterMatchMode.EQUALS,
   },
   title: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -57,6 +62,23 @@ watch(
     router.replace({ query })
   },
   { deep: true },
+)
+
+watch(
+  () => store.error,
+  (newError: Error | null) => {
+    if (newError) {
+      const errorMessage = newError instanceof Error ? newError.message : newError
+      toast.add({
+        severity: 'error',
+        summary: 'Błąd ładowania',
+        detail: errorMessage,
+        life: 5000,
+      })
+
+      store.clearError()
+    }
+  },
 )
 
 onMounted(() => store.fetchTickets())

@@ -34,6 +34,7 @@ export const useTicketsStore = defineStore('tickets', () => {
   const isLoading = ref(false)
   const filterStatus = ref<TicketStatus | null>(null)
   const filterPriority = ref<TicketPriority | null>(null)
+  const error = ref<Error | null>(null)
 
   const filteredTickets = computed(() => {
     return tickets.value
@@ -65,8 +66,9 @@ export const useTicketsStore = defineStore('tickets', () => {
           priorityValue: priorityWeights[ticket.priority],
         }))
       }
-    } catch (error) {
-      console.error('Błąd pobierania:', error)
+    } catch (err) {
+      error.value = err as Error
+      console.error('Błąd pobierania:', err)
     } finally {
       isLoading.value = false
     }
@@ -79,8 +81,9 @@ export const useTicketsStore = defineStore('tickets', () => {
       const data = tickets.value.find((t) => t.id === id)
 
       ticket.value = data || null
-    } catch (error) {
-      console.error('Błąd pobierania:', error)
+    } catch (err) {
+      error.value = err as Error
+      console.error('Błąd pobierania:', err)
     } finally {
       isLoading.value = false
     }
@@ -99,8 +102,9 @@ export const useTicketsStore = defineStore('tickets', () => {
         tickets.value.splice(index, 1, ticketToStore)
 
         return true
-      } catch (error) {
-        console.error('Błąd aktualizacji:', error)
+      } catch (err) {
+        error.value = err as Error
+        console.error('Błąd aktualizacji:', err)
         return false
       }
     }
@@ -132,5 +136,9 @@ export const useTicketsStore = defineStore('tickets', () => {
     setPriorityFilter,
     newTickets,
     highPriorityTickets,
+    error,
+    clearError: () => {
+      error.value = null
+    },
   }
 })

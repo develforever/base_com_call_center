@@ -16,7 +16,7 @@ const router = useRouter()
 </script>
 
 <style lang="scss">
-@use '../assets/globals' as *;
+@use '@/assets/globals' as *;
 
 .pagenav {
   display: flex;
