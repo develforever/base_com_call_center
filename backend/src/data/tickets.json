@@ -1,0 +1,452 @@
+[
+    {
+        "id": 1,
+        "title": "Błąd VoIP - brak dźwięku",
+        "description": "Agent nie słyszy klienta po odebraniu połączenia.",
+        "status": "open",
+        "priority": "high",
+        "createdAt": "2024-05-01T08:00:00Z",
+        "updatedAt": "2024-05-01T08:30:00Z",
+        "assignedTo": "Patrycja Nowak",
+        "customer": {
+            "name": "Jan Kowalski",
+            "email": "customer1@example.com",
+            "phone": "123456789"
+        }
+    },
+    {
+        "id": 2,
+        "title": "Problem z resetem hasła",
+        "description": "Link do resetu hasła wygasa natychmiast po wysłaniu.",
+        "status": "pending",
+        "priority": "medium",
+        "createdAt": "2024-05-01T09:15:00Z",
+        "updatedAt": "2024-05-01T10:00:00Z",
+        "assignedTo": "Marek Wiśniewski",
+        "customer": {
+            "name": "Anna Zielińska",
+            "email": "azielinska@test.pl",
+            "phone": "987654321"
+        }
+    },
+    {
+        "id": 3,
+        "title": "Wymiana słuchawek",
+        "description": "Uszkodzenie mechaniczne pałąka, model Jabra BIZ 2300.",
+        "status": "closed",
+        "priority": "low",
+        "createdAt": "2024-05-01T10:30:00Z",
+        "updatedAt": "2024-05-02T08:00:00Z",
+        "assignedTo": "Łukasz Król",
+        "customer": {
+            "name": "Piotr Nowak",
+            "email": "p.nowak@firma.com",
+            "phone": "555123444"
+        }
+    },
+    {
+        "id": 4,
+        "title": "Awaria bazy danych CRM",
+        "description": "Błąd 500 przy próbie zapisu nowej karty klienta.",
+        "status": "open",
+        "priority": "high",
+        "createdAt": "2024-05-01T11:00:00Z",
+        "updatedAt": "2024-05-01T11:05:00Z",
+        "assignedTo": "Patrycja Nowak",
+        "customer": {
+            "name": "Marta Głowacka",
+            "email": "marta.g@web.pl",
+            "phone": "600100200"
+        }
+    },
+    {
+        "id": 5,
+        "title": "Błędny raport miesięczny",
+        "description": "Statystyki czasu pracy agentów nie sumują przerw prawidłowo.",
+        "status": "open",
+        "priority": "medium",
+        "createdAt": "2024-05-02T08:00:00Z",
+        "updatedAt": "2024-05-02T08:00:00Z",
+        "assignedTo": "Marek Wiśniewski",
+        "customer": {
+            "name": "Tomasz Lewandowski",
+            "email": "t.lewandowski@corp.pl",
+            "phone": "777888999"
+        }
+    },
+    {
+        "id": 6,
+        "title": "Integracja ze Slack - brak powiadomień",
+        "description": "Powiadomienia o nowych ticketach nie docierają na kanał #support.",
+        "status": "pending",
+        "priority": "low",
+        "createdAt": "2024-05-02T09:45:00Z",
+        "updatedAt": "2024-05-02T10:30:00Z",
+        "assignedTo": "Patrycja Nowak",
+        "customer": {
+            "name": "Robert Mazur",
+            "email": "r.mazur@software.com",
+            "phone": "500300400"
+        }
+    },
+    {
+        "id": 7,
+        "title": "Echo podczas rozmów międzynarodowych",
+        "description": "Klienci z UK skarżą się na silne echo w słuchawkach.",
+        "status": "open",
+        "priority": "high",
+        "createdAt": "2024-05-02T11:20:00Z",
+        "updatedAt": "2024-05-02T11:40:00Z",
+        "assignedTo": "Łukasz Król",
+        "customer": {
+            "name": "James Smith",
+            "email": "jsmith@uk-trade.com",
+            "phone": "+44 7700 900000"
+        }
+    },
+    {
+        "id": 8,
+        "title": "Instalacja nowej wersji panelu",
+        "description": "Prośba o wdrożenie poprawki UI na środowisko produkcyjne.",
+        "status": "closed",
+        "priority": "medium",
+        "createdAt": "2024-05-03T07:30:00Z",
+        "updatedAt": "2024-05-03T09:00:00Z",
+        "assignedTo": "Marek Wiśniewski",
+        "customer": {
+            "name": "Karolina Wójcik",
+            "email": "k.wojcik@dev.pl",
+            "phone": "111222333"
+        }
+    },
+    {
+        "id": 9,
+        "title": "Błąd SSL na domenie pomoc.pl",
+        "description": "Certyfikat wygasł 2 dni temu, klienci widzą ostrzeżenie.",
+        "status": "open",
+        "priority": "high",
+        "createdAt": "2024-05-03T08:10:00Z",
+        "updatedAt": "2024-05-03T08:15:00Z",
+        "assignedTo": "Patrycja Nowak",
+        "customer": {
+            "name": "Andrzej Duda",
+            "email": "a.duda@webmaster.pl",
+            "phone": "666555444"
+        }
+    },
+    {
+        "id": 10,
+        "title": "Myszka bezprzewodowa nie działa",
+        "description": "Stanowisko 14, prawdopodobnie konieczna wymiana baterii lub urządzenia.",
+        "status": "closed",
+        "priority": "low",
+        "createdAt": "2024-05-03T10:00:00Z",
+        "updatedAt": "2024-05-03T10:45:00Z",
+        "assignedTo": "Łukasz Król",
+        "customer": {
+            "name": "Ewa Bąk",
+            "email": "e.bak@frontdesk.pl",
+            "phone": "999888777"
+        }
+    },
+    {
+        "id": 11,
+        "title": "Baza kontaktów nie ładuje CSV",
+        "description": "System wyrzuca błąd przy plikach powyżej 10MB.",
+        "status": "pending",
+        "priority": "medium",
+        "createdAt": "2024-05-04T12:00:00Z",
+        "updatedAt": "2024-05-04T13:00:00Z",
+        "assignedTo": "Marek Wiśniewski",
+        "customer": {
+            "name": "Paweł Sroka",
+            "email": "p.sroka@marketing.pl",
+            "phone": "444333222"
+        }
+    },
+    {
+        "id": 12,
+        "title": "Praca zdalna - VPN nie łączy",
+        "description": "Błąd autoryzacji certyfikatu u pracownika w Krakowie.",
+        "status": "open",
+        "priority": "high",
+        "createdAt": "2024-05-04T14:30:00Z",
+        "updatedAt": "2024-05-04T14:40:00Z",
+        "assignedTo": "Patrycja Nowak",
+        "customer": {
+            "name": "Grzegorz Brzęczyszczykiewicz",
+            "email": "g.brzecz@chrzaszczyzewoszyce.pl",
+            "phone": "888000111"
+        }
+    },
+    {
+        "id": 13,
+        "title": "Szkolenie z nowego modułu",
+        "description": "Prośba o przygotowanie instrukcji dla modułu 'Zadania'.",
+        "status": "closed",
+        "priority": "low",
+        "createdAt": "2024-05-05T09:00:00Z",
+        "updatedAt": "2024-05-06T12:00:00Z",
+        "assignedTo": "Marek Wiśniewski",
+        "customer": {
+            "name": "Zofia Nałkowska",
+            "email": "z.nalkowska@edukacja.pl",
+            "phone": "333444555"
+        }
+    },
+    {
+        "id": 14,
+        "title": "Brak integracji z InPost",
+        "description": "Nie można wygenerować etykiety nadawczej z poziomu zamówienia.",
+        "status": "open",
+        "priority": "medium",
+        "createdAt": "2024-05-05T11:20:00Z",
+        "updatedAt": "2024-05-05T11:20:00Z",
+        "assignedTo": "Łukasz Król",
+        "customer": {
+            "name": "Adam Mickiewicz",
+            "email": "adam.m@ksiazki.pl",
+            "phone": "222111000"
+        }
+    },
+    {
+        "id": 15,
+        "title": "Phishing - podejrzany e-mail",
+        "description": "Pracownicy otrzymali maile z prośbą o podanie hasła do poczty.",
+        "status": "closed",
+        "priority": "high",
+        "createdAt": "2024-05-05T13:40:00Z",
+        "updatedAt": "2024-05-05T14:00:00Z",
+        "assignedTo": "Patrycja Nowak",
+        "customer": {
+            "name": "Juliusz Słowacki",
+            "email": "j.slowacki@poczta.pl",
+            "phone": "123123123"
+        }
+    },
+    {
+        "id": 16,
+        "title": "Aktualizacja Windows zawiesiła PC",
+        "description": "Komputer na recepcji utknął na 99% aktualizacji.",
+        "status": "open",
+        "priority": "medium",
+        "createdAt": "2024-05-06T08:05:00Z",
+        "updatedAt": "2024-05-06T08:10:00Z",
+        "assignedTo": "Łukasz Król",
+        "customer": {
+            "name": "Katarzyna Figura",
+            "email": "k.figura@rezerwacja.pl",
+            "phone": "500600700"
+        }
+    },
+    {
+        "id": 17,
+        "title": "Problem z WebRTC w Chrome",
+        "description": "Przeglądarka blokuje dostęp do mikrofonu mimo zezwolenia.",
+        "status": "pending",
+        "priority": "high",
+        "createdAt": "2024-05-06T10:30:00Z",
+        "updatedAt": "2024-05-06T11:00:00Z",
+        "assignedTo": "Patrycja Nowak",
+        "customer": {
+            "name": "Michał Anioł",
+            "email": "m.aniol@art.it",
+            "phone": "456456456"
+        }
+    },
+    {
+        "id": 18,
+        "title": "Dodanie nowego pola w bazie",
+        "description": "Potrzebne pole 'Numer Umowy' w tabeli kontrahentów.",
+        "status": "closed",
+        "priority": "low",
+        "createdAt": "2024-05-06T13:00:00Z",
+        "updatedAt": "2024-05-07T10:00:00Z",
+        "assignedTo": "Marek Wiśniewski",
+        "customer": {
+            "name": "Stefan Żeromski",
+            "email": "s.zeromski@biuro.pl",
+            "phone": "789789789"
+        }
+    },
+    {
+        "id": 19,
+        "title": "Błąd 404 na stronie pomocy",
+        "description": "Sekcja FAQ jest niedostępna po ostatnim wdrożeniu.",
+        "status": "open",
+        "priority": "medium",
+        "createdAt": "2024-05-07T09:15:00Z",
+        "updatedAt": "2024-05-07T09:15:00Z",
+        "assignedTo": "Łukasz Król",
+        "customer": {
+            "name": "Bolesław Prus",
+            "email": "b.prus@wydawnictwo.pl",
+            "phone": "321321321"
+        }
+    },
+    {
+        "id": 20,
+        "title": "Wykryto wirusa na serwerze plikowym",
+        "description": "Alert z antywirusa o próbie zaszyfrowania plików.",
+        "status": "open",
+        "priority": "high",
+        "createdAt": "2024-05-07T11:45:00Z",
+        "updatedAt": "2024-05-07T11:50:00Z",
+        "assignedTo": "Patrycja Nowak",
+        "customer": {
+            "name": "Maria Skłodowska",
+            "email": "m.sklodowska@lab.pl",
+            "phone": "101202303"
+        }
+    },
+    {
+        "id": 21,
+        "title": "Migotanie monitora",
+        "description": "Monitor na stanowisku 25 gaśnie na kilka sekund co pół godziny.",
+        "status": "pending",
+        "priority": "low",
+        "createdAt": "2024-05-08T08:30:00Z",
+        "updatedAt": "2024-05-08T09:00:00Z",
+        "assignedTo": "Łukasz Król",
+        "customer": {
+            "name": "Henryk Sienkiewicz",
+            "email": "h.sienkiewicz@proza.pl",
+            "phone": "505505505"
+        }
+    },
+    {
+        "id": 22,
+        "title": "Konfiguracja nowego agenta",
+        "description": "Przygotowanie konta i sprzętu dla nowego pracownika - Marcin Dubiel.",
+        "status": "closed",
+        "priority": "medium",
+        "createdAt": "2024-05-08T10:15:00Z",
+        "updatedAt": "2024-05-08T14:00:00Z",
+        "assignedTo": "Marek Wiśniewski",
+        "customer": {
+            "name": "Marcin Dubiel",
+            "email": "m.dubiel@nowy.pl",
+            "phone": "123987456"
+        }
+    },
+    {
+        "id": 23,
+        "title": "Problem z mikrofonem USB",
+        "description": "Mikrofon Blue Yeti przestał być wykrywany przez system.",
+        "status": "open",
+        "priority": "medium",
+        "createdAt": "2024-05-08T13:00:00Z",
+        "updatedAt": "2024-05-08T13:00:00Z",
+        "assignedTo": "Łukasz Król",
+        "customer": {
+            "name": "Krzysztof Kolumb",
+            "email": "k.kolumb@odkrycia.pl",
+            "phone": "606707808"
+        }
+    },
+    {
+        "id": 24,
+        "title": "Błąd integracji z API banku",
+        "description": "Problem z webhookami przy potwierdzeniach przelewów.",
+        "status": "new",
+        "priority": "high",
+        "createdAt": "2024-05-09T09:20:00Z",
+        "updatedAt": "2024-05-09T09:30:00Z",
+        "assignedTo": "Patrycja Nowak",
+        "customer": {
+            "name": "Mikołaj Kopernik",
+            "email": "m.kopernik@niebo.pl",
+            "phone": "111000111"
+        }
+    },
+    {
+        "id": 25,
+        "title": "Zapytanie o eksport do PDF",
+        "description": "Czy można zmienić orientację strony na poziomą przy eksporcie tabeli?",
+        "status": "closed",
+        "priority": "low",
+        "createdAt": "2024-05-09T11:00:00Z",
+        "updatedAt": "2024-05-09T13:00:00Z",
+        "assignedTo": "Marek Wiśniewski",
+        "customer": {
+            "name": "Wisława Szymborska",
+            "email": "w.szymborska@poezja.pl",
+            "phone": "222333444"
+        }
+    },
+    {
+        "id": 26,
+        "title": "Awaria zasilacza w serwerze backupowym",
+        "description": "Serwer działa na jednym zasilaczu, konieczna pilna wymiana drugiego.",
+        "status": "pending",
+        "priority": "high",
+        "createdAt": "2024-05-10T07:45:00Z",
+        "updatedAt": "2024-05-10T08:00:00Z",
+        "assignedTo": "Łukasz Król",
+        "customer": {
+            "name": "Ignacy Jan Paderewski",
+            "email": "i.paderewski@music.pl",
+            "phone": "555666777"
+        }
+    },
+    {
+        "id": 27,
+        "title": "Znikające nagrania rozmów",
+        "description": "Niektóre rozmowy z wczoraj nie są widoczne w panelu odsłuchu.",
+        "status": "open",
+        "priority": "medium",
+        "createdAt": "2024-05-10T09:30:00Z",
+        "updatedAt": "2024-05-10T09:30:00Z",
+        "assignedTo": "Patrycja Nowak",
+        "customer": {
+            "name": "Fryderyk Chopin",
+            "email": "f.chopin@pianino.fr",
+            "phone": "999000888"
+        }
+    },
+    {
+        "id": 28,
+        "title": "Poczta głosowa nie nagrywa",
+        "description": "Klienci słyszą komunikat o braku miejsca na dysku.",
+        "status": "new",
+        "priority": "medium",
+        "createdAt": "2024-05-10T11:15:00Z",
+        "updatedAt": "2024-05-10T11:15:00Z",
+        "assignedTo": "Łukasz Król",
+        "customer": {
+            "name": "Jan Matejko",
+            "email": "j.matejko@obrazy.pl",
+            "phone": "444555666"
+        }
+    },
+    {
+        "id": 29,
+        "title": "Błąd w stopce maila agentów",
+        "description": "Numer telefonu w stopce jest nieprawidłowy w całym dziale sprzedaży.",
+        "status": "closed",
+        "priority": "low",
+        "createdAt": "2024-05-11T08:40:00Z",
+        "updatedAt": "2024-05-11T10:00:00Z",
+        "assignedTo": "Marek Wiśniewski",
+        "customer": {
+            "name": "Tadeusz Kościuszko",
+            "email": "t.kosciuszko@wolnosc.pl",
+            "phone": "123123456"
+        }
+    },
+    {
+        "id": 30,
+        "title": "Internet w biurze zwolnił",
+        "description": "Prędkość spadła do 2Mbps, praca na terminalach jest niemożliwa.",
+        "status": "open",
+        "priority": "high",
+        "createdAt": "2024-05-11T10:20:00Z",
+        "updatedAt": "2024-05-11T10:25:00Z",
+        "assignedTo": "Patrycja Nowak",
+        "customer": {
+            "name": "Witold Pilecki",
+            "email": "w.pilecki@hero.pl",
+            "phone": "777666555"
+        }
+    }
+]
