@@ -1,0 +1,25 @@
+{
+  "name": "backend",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "tsoa": "tsoa spec-and-routes",
+    "dev": "npm run tsoa && nodemon src/server.ts",
+    "build": "npm run tsoa && tsc",
+    "generate-types": "openapi-typescript ./public/swagger.json -o ../frontend/src/types/api.d.ts"
+  },
+  "dependencies": {
+    "express": "~4.16.1",
+    "swagger-ui-express": "^5.0.1",
+    "tsoa": "^7.0.0-alpha.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.2.3",
+    "@types/swagger-ui-express": "^4.1.8",
+    "nodemon": "^3.1.11",
+    "openapi-typescript": "^7.13.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
