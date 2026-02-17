@@ -1,12 +1,12 @@
 import apiClient from '@/api/api.client'
-import type { components } from '@/types/api.d';
+import type { components } from '@/types/api'
 
-export type Ticket = components["schemas"]["Ticket"];
-export type TicketStatus = components["schemas"]["TicketStatus"];
-export type TicketPriority = components["schemas"]["TicketPriority"];
+export type Ticket = components['schemas']['Ticket']
+export type TicketStatus = components['schemas']['TicketStatus']
+export type TicketPriority = components['schemas']['TicketPriority']
 
-export type TicketCreationParams = components["schemas"]["TicketCreationParams"];
-export type TicketUpdateParams = components["schemas"]["TicketUpdateParams"];
+export type TicketCreationParams = components['schemas']['TicketCreationParams']
+export type TicketUpdateParams = components['schemas']['TicketUpdateParams']
 
 export const TicketsService = {
   async getAll(): Promise<Ticket[]> {

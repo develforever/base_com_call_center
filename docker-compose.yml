@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./
+      dockerfile: ./.docker/nginx/frontend/Dockerfile
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+      - frontend:/app/node_modules
+    expose:
+      - "5173"
+    ports:
+      - "9323:9323"
+    environment:
+      - NODE_ENV=development
+    networks:
+      - app-network
+
+  backend:
+    image: node:20-slim
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+      - backend:/app/node_modules
+      - ./frontend/src/types:/frontend/src/types/
+    command: sh -c "npm install && npm run dev"
+    expose:
+      - "3000"
+    environment:
+      - NODE_ENV=development
+    networks:
+      - app-network
+
+  gateway:
+    image: nginx:alpine
+    volumes:
+      - ./.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "8080:80"
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - app-network
+
+volumes:
+  frontend:
+  backend:
+
+networks:
+  app-network:
+    driver: bridge

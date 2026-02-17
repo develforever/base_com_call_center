@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "tsoa": "tsoa spec-and-routes",
+    "posttsoa": "npm run generate-types",
     "dev": "npm run tsoa && nodemon src/server.ts",
     "build": "npm run tsoa && tsc",
-    "generate-types": "openapi-typescript ./public/swagger.json -o ../frontend/src/types/api.d.ts"
+    "generate-types": "openapi-typescript ./public/swagger.json -o ../frontend/src/types/api.ts --enum"
   },
   "dependencies": {
     "express": "~4.16.1",

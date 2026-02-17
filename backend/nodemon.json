@@ -3,5 +3,11 @@
         "src"
     ],
     "ext": "ts",
-    "exec": "ts-node"
+    "exec": "npm run tsoa && ts-node src/server.ts",
+    "ignore": [
+        "public/swagger.json",
+        "src/routes.ts",
+        "../frontend/src/types/api.ts",
+        "node_modules"
+    ]
 }

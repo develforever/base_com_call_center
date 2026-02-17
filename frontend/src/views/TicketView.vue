@@ -2,7 +2,8 @@
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useToast } from 'primevue'
-import { useTicketsStore, priorityLabels, statusLabels } from '@/stores/useTicketsStore'
+import { useTicketsStore } from '@/stores/useTicketsStore'
+import { statusLabels, priorityLabels } from '@/composables/useTicketFormatter'
 
 import { Button, Card, InputText, Message, Select, Textarea } from 'primevue'
 import PageNav from '@/components/PageNav.vue'

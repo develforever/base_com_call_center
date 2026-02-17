@@ -2,7 +2,7 @@
 import { ref, onMounted, watch, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { FilterMatchMode } from '@primevue/core/api'
-import { priorityLabels, statusLabels, useTicketsStore } from '@/stores/useTicketsStore'
+import { useTicketsStore } from '@/stores/useTicketsStore'
 import { TicketPriority, TicketStatus } from '@/types/types'
 import type { Ticket } from '@/types/types'
 import { RouteNames } from '@/router'
@@ -11,6 +11,8 @@ import {
   STATUS_SEVERITY,
   statusOptions,
   priorityOptions,
+  statusLabels,
+  priorityLabels,
 } from '@/composables/useTicketFormatter'
 
 import {

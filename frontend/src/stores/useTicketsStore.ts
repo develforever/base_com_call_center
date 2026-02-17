@@ -1,32 +1,8 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-// TODO: if implemented and tested then use axios based api
-//import { TicketsService } from '@/api/services/tickets.service'
-import { TicketsService } from '@/services/useTicketService'
-import { TicketPriority } from '@/types/types'
-import { TicketStatus } from '@/types/types'
-import type { Ticket } from '@/types/types'
-
-export const priorityWeights: Record<TicketPriority, number> = {
-  [TicketPriority.LOW]: 1,
-  [TicketPriority.MEDIUM]: 2,
-  [TicketPriority.HIGH]: 3,
-}
-
-export const statusLabels: Record<TicketStatus, string> = {
-  [TicketStatus.NEW]: 'Nowy',
-  [TicketStatus.OPEN]: 'Otwarty',
-  [TicketStatus.PENDING]: 'Oczekujący',
-  [TicketStatus.ON_HOLD]: 'Wstrzymany',
-  [TicketStatus.CLOSED]: 'Zamknięty',
-  [TicketStatus.CANCELLED]: 'Anulowany',
-}
-
-export const priorityLabels: Record<TicketPriority, string> = {
-  [TicketPriority.LOW]: 'Niski',
-  [TicketPriority.MEDIUM]: 'Średni',
-  [TicketPriority.HIGH]: 'Wysoki',
-}
+import { TicketsService, type Ticket } from '@/api/services/tickets.service'
+import { TicketPriority, TicketStatus } from '@/types/api'
+import { priorityWeights } from '@/composables/useTicketFormatter'
 
 export const useTicketsStore = defineStore('tickets', () => {
   const tickets = ref<Ticket[]>([])
@@ -43,11 +19,11 @@ export const useTicketsStore = defineStore('tickets', () => {
   })
 
   const newTickets = computed(() => {
-    return tickets.value.filter((ticket) => ticket.status === TicketStatus.NEW)
+    return tickets.value.filter((ticket) => ticket.status === TicketStatus.new)
   })
 
   const highPriorityTickets = computed(() => {
-    return tickets.value.filter((ticket) => ticket.priority === TicketPriority.HIGH)
+    return tickets.value.filter((ticket) => ticket.priority === TicketPriority.high)
   })
 
   async function fetchTickets() {

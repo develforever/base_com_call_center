@@ -41,9 +41,9 @@ export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
         /** @enum {string} */
-        TicketStatus: "new" | "open" | "closed" | "pending" | "on_hold" | "cancelled";
+        TicketStatus: TicketStatus;
         /** @enum {string} */
-        TicketPriority: "low" | "medium" | "high";
+        TicketPriority: TicketPriority;
         Customer: {
             name: string;
             /** Format: email */
@@ -188,4 +188,17 @@ export interface operations {
             };
         };
     };
+}
+export enum TicketStatus {
+    new = "new",
+    open = "open",
+    closed = "closed",
+    pending = "pending",
+    on_hold = "on_hold",
+    cancelled = "cancelled"
+}
+export enum TicketPriority {
+    low = "low",
+    medium = "medium",
+    high = "high"
 }
