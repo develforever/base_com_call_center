@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import { TicketsService, type Ticket } from '@/api/services/tickets.service'
+import { TicketsService, type Ticket, type TicketUpdateParams } from '@/api/services/tickets.service'
 import { TicketPriority, TicketStatus } from '@/types/api'
 import { priorityWeights } from '@/composables/useTicketFormatter'
 
@@ -31,6 +31,7 @@ export const useTicketsStore = defineStore('tickets', () => {
 
     try {
       if (tickets.value.length === 0) {
+        await new Promise((resolve) => setTimeout(resolve, 1000))
         const data: Ticket[] = await TicketsService.getAll()
 
         if (!data || data.length === 0) {
@@ -54,9 +55,9 @@ export const useTicketsStore = defineStore('tickets', () => {
     isLoading.value = true
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000))
-      const data = tickets.value.find((t) => t.id === id)
+      const data = await TicketsService.getById(id);
 
-      ticket.value = data || null
+      ticket.value = data
     } catch (err) {
       error.value = err as Error
       console.error('Błąd pobierania:', err)
@@ -65,19 +66,20 @@ export const useTicketsStore = defineStore('tickets', () => {
     }
   }
 
-  async function updateTicket(updatedTicket: Ticket) {
-    const index = tickets.value.findIndex((t) => t.id === updatedTicket.id)
+  async function updateTicket(id: number, updatedTicket: TicketUpdateParams) {
+    const index = tickets.value.findIndex((t) => t.id === id)
 
     if (index !== -1) {
       try {
-        const ticketToStore = {
-          ...updatedTicket,
-          updatedAt: new Date().toISOString(),
+        const data = await TicketsService.update(id, updatedTicket)
+
+        if (data) {
+          tickets.value[index] = data
+          ticket.value = data
+          return true
         }
 
-        tickets.value.splice(index, 1, ticketToStore)
 
-        return true
       } catch (err) {
         error.value = err as Error
         console.error('Błąd aktualizacji:', err)
@@ -99,6 +101,29 @@ export const useTicketsStore = defineStore('tickets', () => {
     filterPriority.value = priority
   }
 
+  async function deleteTicket(id: number) {
+    const index = tickets.value.findIndex((t) => t.id === id)
+
+    if (index !== -1) {
+      try {
+        const data = await TicketsService.delete(id)
+
+        if (data) {
+          tickets.value.splice(index, 1)
+          ticket.value = null
+          return true
+        }
+
+
+      } catch (err) {
+        error.value = err as Error
+        console.error('Błąd usuwania:', err)
+        return false
+      }
+    }
+    return false
+  }
+
   return {
     tickets,
     filteredTickets,
@@ -116,5 +141,6 @@ export const useTicketsStore = defineStore('tickets', () => {
     clearError: () => {
       error.value = null
     },
+    deleteTicket,
   }
 })

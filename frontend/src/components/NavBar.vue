@@ -84,6 +84,7 @@ import Menubar from 'primevue/menubar'
 import { useUserStore } from '@/stores/useUserStore'
 import { Avatar, Button } from 'primevue'
 import { useRouter } from 'vue-router'
+import { RouteNames } from '@/router'
 
 interface Props {
   title?: string
@@ -112,12 +113,12 @@ const items = computed(() => [
 ])
 
 const login = () => {
-  router.push('/login')
+  router.push({ name: RouteNames.Login })
 }
 
 const logout = () => {
   userStore.logout()
-  router.push('/')
+  router.push({ name: RouteNames.Login })
 }
 </script>
 

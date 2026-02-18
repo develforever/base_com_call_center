@@ -5,7 +5,7 @@ const ticketsDb: Ticket[] = [...initialTickets] as Ticket[];
 
 export const TicketService = {
     getAll: (status?: TicketStatus, search?: string, assignedTo?: string) => {
-        let filteredTickets = [...ticketsDb];
+        let filteredTickets = [...ticketsDb].filter(t => t.deletedAt === undefined);
 
         if (status) {
             filteredTickets = filteredTickets.filter(t => t.status === status);
@@ -24,6 +24,8 @@ export const TicketService = {
                 t.customer.name.toLowerCase().includes(query)
             );
         }
+
+
 
         return filteredTickets;
     },

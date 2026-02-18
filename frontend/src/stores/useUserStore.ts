@@ -1,12 +1,14 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
+export type ROLE = 'ADMIN' | 'USER';
+
 export interface User {
   id: number
   name: string
   email: string
   password: string
-  role: string
+  role: ROLE
   permissions: string[]
 }
 

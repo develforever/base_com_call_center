@@ -27,7 +27,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        get: operations["GetTicketById"];
         put: operations["UpdateTicket"];
         post?: never;
         delete: operations["DeleteTicket"];
@@ -60,11 +60,12 @@ export interface components {
             priority: components["schemas"]["TicketPriority"];
             createdAt: string;
             updatedAt: string;
+            deletedAt?: string;
             assignedTo: string;
             customer: components["schemas"]["Customer"];
         };
         /** @description From T, pick a set of properties whose keys are in the union K */
-        "Pick_Ticket.Exclude_keyofTicket.id-or-createdAt-or-updatedAt__": {
+        "Pick_Ticket.Exclude_keyofTicket.id-or-createdAt-or-updatedAt-or-deletedAt__": {
             title: string;
             description: string;
             status: components["schemas"]["TicketStatus"];
@@ -73,10 +74,10 @@ export interface components {
             customer: components["schemas"]["Customer"];
         };
         /** @description Construct a type with the properties of T except for those in type K. */
-        "Omit_Ticket.id-or-createdAt-or-updatedAt_": components["schemas"]["Pick_Ticket.Exclude_keyofTicket.id-or-createdAt-or-updatedAt__"];
-        TicketCreationParams: components["schemas"]["Omit_Ticket.id-or-createdAt-or-updatedAt_"];
+        "Omit_Ticket.id-or-createdAt-or-updatedAt-or-deletedAt_": components["schemas"]["Pick_Ticket.Exclude_keyofTicket.id-or-createdAt-or-updatedAt-or-deletedAt__"];
+        TicketCreationParams: components["schemas"]["Omit_Ticket.id-or-createdAt-or-updatedAt-or-deletedAt_"];
         /** @description Make all properties in T optional */
-        "Partial_Omit_Ticket.id-or-createdAt-or-updatedAt__": {
+        "Partial_Omit_Ticket.id-or-createdAt-or-updatedAt-or-deletedAt__": {
             title?: string;
             description?: string;
             status?: components["schemas"]["TicketStatus"];
@@ -84,7 +85,7 @@ export interface components {
             assignedTo?: string;
             customer?: components["schemas"]["Customer"];
         };
-        TicketUpdateParams: components["schemas"]["Partial_Omit_Ticket.id-or-createdAt-or-updatedAt__"];
+        TicketUpdateParams: components["schemas"]["Partial_Omit_Ticket.id-or-createdAt-or-updatedAt-or-deletedAt__"];
     };
     responses: never;
     parameters: never;
@@ -142,6 +143,28 @@ export interface operations {
             };
         };
     };
+    GetTicketById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Ok */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Ticket"] | null;
+                };
+            };
+        };
+    };
     UpdateTicket: {
         parameters: {
             query?: never;
@@ -179,12 +202,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description No content */
-            204: {
+            /** @description Ok */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": boolean;
+                };
             };
         };
     };
