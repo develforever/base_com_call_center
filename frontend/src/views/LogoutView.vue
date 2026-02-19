@@ -15,8 +15,6 @@ const userStore = useUserStore()
 userStore.logout()
 
 router.push({ name: RouteNames.Login })
-
-
 </script>
 
 <template>
