@@ -13,7 +13,6 @@ import '@/assets/tailwind.css'
 import '@/assets/main.scss'
 import { ConfirmationService } from 'primevue'
 
-
 const app = createApp(App)
 
 app.use(createPinia())
@@ -26,9 +25,9 @@ app.use(PrimeVue, {
     },
   },
 })
-app.use(ConfirmationService);
+app.use(ConfirmationService)
 app.use(ToastService)
 app.directive('tooltip', Tooltip)
-app.use(authPlugin, { router });
+app.use(authPlugin, { router })
 
 app.mount('#call-center')

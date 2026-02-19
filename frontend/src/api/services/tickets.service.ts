@@ -8,18 +8,23 @@ export type TicketPriority = components['schemas']['TicketPriority']
 export type TicketCreationParams = components['schemas']['TicketCreationParams']
 export type TicketUpdateParams = components['schemas']['TicketUpdateParams']
 
-export type GetTicketsResponse = paths['/tickets']['get']['responses']['200']['content']['application/json'];
-export type GetTicketByIdResponse = paths['/tickets/{id}']['get']['responses']['200']['content']['application/json'];
-export type UpdateTicketResponse = paths['/tickets/{id}']['put']['responses']['200']['content']['application/json'];
-export type CreateTicketResponse = paths['/tickets']['post']['responses']['201']['content']['application/json'];
-export type DeleteTicketResponse = paths['/tickets/{id}']['delete']['responses']['200']['content'];
+export type GetTicketsResponse =
+  paths['/tickets']['get']['responses']['200']['content']['application/json']
+export type GetTicketByIdResponse =
+  paths['/tickets/{id}']['get']['responses']['200']['content']['application/json']
+export type UpdateTicketResponse =
+  paths['/tickets/{id}']['put']['responses']['200']['content']['application/json']
+export type CreateTicketResponse =
+  paths['/tickets']['post']['responses']['201']['content']['application/json']
+export type DeleteTicketResponse = paths['/tickets/{id}']['delete']['responses']['200']['content']
 
 export const TicketsService = {
-  async getAll(params?: paths['/tickets']['get']['parameters']['query']): Promise<GetTicketsResponse> {
-    const response = await apiClient.get<GetTicketsResponse>('/tickets', { params });
-    return response.data;
+  async getAll(
+    params?: paths['/tickets']['get']['parameters']['query'],
+  ): Promise<GetTicketsResponse> {
+    const response = await apiClient.get<GetTicketsResponse>('/tickets', { params })
+    return response.data
   },
-
 
   async getById(id: number): Promise<GetTicketByIdResponse> {
     const { data } = await apiClient.get<GetTicketByIdResponse>(`/tickets/${id}`)

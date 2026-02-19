@@ -24,7 +24,7 @@ services:
     volumes:
       - ./backend:/app
       - backend:/app/node_modules
-      - ./frontend/src/types:/frontend/src/types/
+      - ./frontend/src/types:/frontend/src/types
     command: sh -c "npm install && npm run dev"
     expose:
       - "3000"

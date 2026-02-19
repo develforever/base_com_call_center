@@ -2,8 +2,8 @@
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ConfirmPopup, useConfirm, useToast } from 'primevue'
-import { useTicketsStore } from '@/stores/useTicketsStore'
-import { statusLabels, priorityLabels } from '@/composables/useTicketFormatter'
+import { useTicketsStore } from '@/features/tickets/stores/useTicketsStore'
+import { statusLabels, priorityLabels } from '@/features/tickets/composables/useTicketFormatter'
 
 import { Button, Card, InputText, Message, Select, Textarea } from 'primevue'
 import PageNav from '@/components/PageNav.vue'
@@ -12,7 +12,7 @@ import type { Ticket, TicketUpdateParams } from '@/api/services/tickets.service'
 const STATUS_OPTIONS = Object.entries(statusLabels).map(([value, label]) => ({ label, value }))
 const PRIORITY_OPTIONS = Object.entries(priorityLabels).map(([value, label]) => ({ label, value }))
 
-const confirm = useConfirm();
+const confirm = useConfirm()
 const toast = useToast()
 const router = useRouter()
 const route = useRoute()
@@ -116,21 +116,20 @@ const requireConfirmation = (event: any) => {
     rejectProps: {
       label: 'Anuluj',
       severity: 'secondary',
-      outlined: true
+      outlined: true,
     },
     acceptProps: {
       label: 'Usuń',
-      severity: 'danger'
+      severity: 'danger',
     },
     accept: () => {
-      handleDelete();
+      handleDelete()
     },
     reject: () => {
       // Opcjonalnie: co się dzieje po kliknięciu "Anuluj"
-    }
-  });
-};
-
+    },
+  })
+}
 </script>
 
 <template>
@@ -144,7 +143,9 @@ const requireConfirmation = (event: any) => {
 
         <template #subtitle>
           <div class="flex flex-wrap gap-2 text-sm">
-            <span>Klient: <strong>{{ ticketDraft.customer.name }}</strong></span>
+            <span
+              >Klient: <strong>{{ ticketDraft.customer.name }}</strong></span
+            >
             <a :href="`mailto:${ticketDraft.customer.email}`" class="text-blue-600 underline">{{
               ticketDraft.customer.email
             }}</a>
@@ -162,37 +163,69 @@ const requireConfirmation = (event: any) => {
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="col-span-full">
               <label for="title" class="font-semibold block mb-2">Tytuł zgłoszenia</label>
-              <InputText id="title" v-on:update:model-value="updateField('title', $event)" v-model="ticketDraft.title"
-                fluid />
+              <InputText
+                id="title"
+                v-on:update:model-value="updateField('title', $event)"
+                v-model="ticketDraft.title"
+                fluid
+              />
             </div>
 
             <div class="field">
               <label class="font-semibold block mb-2">Status</label>
-              <Select v-model="ticketDraft.status" v-on:update:model-value="updateField('status', $event)"
-                :options="STATUS_OPTIONS" optionLabel="label" optionValue="value" fluid />
+              <Select
+                v-model="ticketDraft.status"
+                v-on:update:model-value="updateField('status', $event)"
+                :options="STATUS_OPTIONS"
+                optionLabel="label"
+                optionValue="value"
+                fluid
+              />
             </div>
 
             <div class="field">
               <label class="font-semibold block mb-2">Priorytet</label>
-              <Select v-model="ticketDraft.priority" v-on:update:model-value="updateField('priority', $event)"
-                :options="PRIORITY_OPTIONS" optionLabel="label" optionValue="value" fluid />
+              <Select
+                v-model="ticketDraft.priority"
+                v-on:update:model-value="updateField('priority', $event)"
+                :options="PRIORITY_OPTIONS"
+                optionLabel="label"
+                optionValue="value"
+                fluid
+              />
             </div>
 
             <div class="col-span-full">
               <label for="desc" class="font-semibold block mb-2">Opis problemu</label>
-              <Textarea id="desc" v-model="ticketDraft.description"
-                v-on:update:model-value="updateField('description', $event)" rows="5" fluid auto-resize />
+              <Textarea
+                id="desc"
+                v-model="ticketDraft.description"
+                v-on:update:model-value="updateField('description', $event)"
+                rows="5"
+                fluid
+                auto-resize
+              />
             </div>
           </div>
         </template>
 
         <template #footer>
           <div class="flex justify-between gap-3">
-            <Button label="Usuń zgłoszenie" severity="danger" text @click="requireConfirmation($event)" />
+            <Button
+              label="Usuń zgłoszenie"
+              severity="danger"
+              text
+              @click="requireConfirmation($event)"
+            />
 
             <div class="flex justify-end gap-3">
               <Button label="Anuluj" severity="secondary" text @click="router.back()" />
-              <Button label="Zapisz zmiany" icon="pi pi-check" :loading="isSaving" @click="handleSave" />
+              <Button
+                label="Zapisz zmiany"
+                icon="pi pi-check"
+                :loading="isSaving"
+                @click="handleSave"
+              />
             </div>
           </div>
         </template>
