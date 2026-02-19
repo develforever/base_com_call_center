@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTicketsStore } from '@/stores/useTicketsStore'
+import { useTicketsStore } from '@/features/tickets/stores/useTicketsStore'
 import { Card } from 'primevue'
 import { onMounted } from 'vue'
 import { RouterLink } from 'vue-router'

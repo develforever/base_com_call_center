@@ -1,8 +1,12 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import { TicketsService, type Ticket, type TicketUpdateParams } from '@/api/services/tickets.service'
+import {
+  TicketsService,
+  type Ticket,
+  type TicketUpdateParams,
+} from '@/api/services/tickets.service'
 import { TicketPriority, TicketStatus } from '@/types/api'
-import { priorityWeights } from '@/composables/useTicketFormatter'
+import { priorityWeights } from '@/features/tickets/composables/useTicketFormatter'
 
 export const useTicketsStore = defineStore('tickets', () => {
   const tickets = ref<Ticket[]>([])
@@ -55,7 +59,7 @@ export const useTicketsStore = defineStore('tickets', () => {
     isLoading.value = true
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000))
-      const data = await TicketsService.getById(id);
+      const data = await TicketsService.getById(id)
 
       ticket.value = data
     } catch (err) {
@@ -78,8 +82,6 @@ export const useTicketsStore = defineStore('tickets', () => {
           ticket.value = data
           return true
         }
-
-
       } catch (err) {
         error.value = err as Error
         console.error('Błąd aktualizacji:', err)
@@ -113,8 +115,6 @@ export const useTicketsStore = defineStore('tickets', () => {
           ticket.value = null
           return true
         }
-
-
       } catch (err) {
         error.value = err as Error
         console.error('Błąd usuwania:', err)
