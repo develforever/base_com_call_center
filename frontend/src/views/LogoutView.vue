@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useToast } from 'primevue/usetoast'
 import { useUserStore } from '@/stores/useUserStore'
-import router from '@/router'
+import router, { RouteNames } from '@/router'
 
 const toast = useToast()
 
@@ -11,10 +11,12 @@ toast.add({
   life: 3000,
 })
 
-const { logout } = useUserStore()
-logout()
+const userStore = useUserStore()
+userStore.logout()
 
-router.push('/')
+router.push({ name: RouteNames.Login })
+
+
 </script>
 
 <template>
