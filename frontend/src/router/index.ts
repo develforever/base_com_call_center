@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
-import { useUserStore } from '@/stores/useUserStore'
 
 export enum RouteNames {
   Home = 'home',
@@ -48,18 +47,6 @@ const router = createRouter({
       },
     },
   ],
-})
-
-router.beforeResolve(async (to) => {
-  if (to.meta.requiresAuth) {
-    const { isLoggedIn } = useUserStore()
-
-    if (!isLoggedIn) {
-      return {
-        name: RouteNames.Login,
-      }
-    }
-  }
 })
 
 export default router

@@ -1,32 +1,8 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-// TODO: if implemented and tested then use axios based api
-//import { TicketsService } from '@/api/services/tickets.service'
-import { TicketsService } from '@/services/useTicketService'
-import { TicketPriority } from '@/types/types'
-import { TicketStatus } from '@/types/types'
-import type { Ticket } from '@/types/types'
-
-export const priorityWeights: Record<TicketPriority, number> = {
-  [TicketPriority.LOW]: 1,
-  [TicketPriority.MEDIUM]: 2,
-  [TicketPriority.HIGH]: 3,
-}
-
-export const statusLabels: Record<TicketStatus, string> = {
-  [TicketStatus.NEW]: 'Nowy',
-  [TicketStatus.OPEN]: 'Otwarty',
-  [TicketStatus.PENDING]: 'Oczekujący',
-  [TicketStatus.ON_HOLD]: 'Wstrzymany',
-  [TicketStatus.CLOSED]: 'Zamknięty',
-  [TicketStatus.CANCELLED]: 'Anulowany',
-}
-
-export const priorityLabels: Record<TicketPriority, string> = {
-  [TicketPriority.LOW]: 'Niski',
-  [TicketPriority.MEDIUM]: 'Średni',
-  [TicketPriority.HIGH]: 'Wysoki',
-}
+import { TicketsService, type Ticket, type TicketUpdateParams } from '@/api/services/tickets.service'
+import { TicketPriority, TicketStatus } from '@/types/api'
+import { priorityWeights } from '@/composables/useTicketFormatter'
 
 export const useTicketsStore = defineStore('tickets', () => {
   const tickets = ref<Ticket[]>([])
@@ -43,11 +19,11 @@ export const useTicketsStore = defineStore('tickets', () => {
   })
 
   const newTickets = computed(() => {
-    return tickets.value.filter((ticket) => ticket.status === TicketStatus.NEW)
+    return tickets.value.filter((ticket) => ticket.status === TicketStatus.new)
   })
 
   const highPriorityTickets = computed(() => {
-    return tickets.value.filter((ticket) => ticket.priority === TicketPriority.HIGH)
+    return tickets.value.filter((ticket) => ticket.priority === TicketPriority.high)
   })
 
   async function fetchTickets() {
@@ -55,6 +31,7 @@ export const useTicketsStore = defineStore('tickets', () => {
 
     try {
       if (tickets.value.length === 0) {
+        await new Promise((resolve) => setTimeout(resolve, 1000))
         const data: Ticket[] = await TicketsService.getAll()
 
         if (!data || data.length === 0) {
@@ -78,9 +55,9 @@ export const useTicketsStore = defineStore('tickets', () => {
     isLoading.value = true
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000))
-      const data = tickets.value.find((t) => t.id === id)
+      const data = await TicketsService.getById(id);
 
-      ticket.value = data || null
+      ticket.value = data
     } catch (err) {
       error.value = err as Error
       console.error('Błąd pobierania:', err)
@@ -89,19 +66,20 @@ export const useTicketsStore = defineStore('tickets', () => {
     }
   }
 
-  async function updateTicket(updatedTicket: Ticket) {
-    const index = tickets.value.findIndex((t) => t.id === updatedTicket.id)
+  async function updateTicket(id: number, updatedTicket: TicketUpdateParams) {
+    const index = tickets.value.findIndex((t) => t.id === id)
 
     if (index !== -1) {
       try {
-        const ticketToStore = {
-          ...updatedTicket,
-          updatedAt: new Date().toISOString(),
+        const data = await TicketsService.update(id, updatedTicket)
+
+        if (data) {
+          tickets.value[index] = data
+          ticket.value = data
+          return true
         }
 
-        tickets.value.splice(index, 1, ticketToStore)
 
-        return true
       } catch (err) {
         error.value = err as Error
         console.error('Błąd aktualizacji:', err)
@@ -123,6 +101,29 @@ export const useTicketsStore = defineStore('tickets', () => {
     filterPriority.value = priority
   }
 
+  async function deleteTicket(id: number) {
+    const index = tickets.value.findIndex((t) => t.id === id)
+
+    if (index !== -1) {
+      try {
+        const data = await TicketsService.delete(id)
+
+        if (data) {
+          tickets.value.splice(index, 1)
+          ticket.value = null
+          return true
+        }
+
+
+      } catch (err) {
+        error.value = err as Error
+        console.error('Błąd usuwania:', err)
+        return false
+      }
+    }
+    return false
+  }
+
   return {
     tickets,
     filteredTickets,
@@ -140,5 +141,6 @@ export const useTicketsStore = defineStore('tickets', () => {
     clearError: () => {
       error.value = null
     },
+    deleteTicket,
   }
 })

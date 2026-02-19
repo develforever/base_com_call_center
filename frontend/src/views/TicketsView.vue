@@ -2,15 +2,15 @@
 import { ref, onMounted, watch, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { FilterMatchMode } from '@primevue/core/api'
-import { priorityLabels, statusLabels, useTicketsStore } from '@/stores/useTicketsStore'
-import { TicketPriority, TicketStatus } from '@/types/types'
-import type { Ticket } from '@/types/types'
+import { useTicketsStore } from '@/stores/useTicketsStore'
 import { RouteNames } from '@/router'
 import {
   PRIORITY_SEVERITY,
   STATUS_SEVERITY,
   statusOptions,
   priorityOptions,
+  statusLabels,
+  priorityLabels,
 } from '@/composables/useTicketFormatter'
 
 import {
@@ -24,6 +24,7 @@ import {
   Select,
   useToast,
 } from 'primevue'
+import type { Ticket, TicketPriority, TicketStatus } from '@/api/services/tickets.service'
 
 const toast = useToast()
 const store = useTicketsStore()
@@ -119,7 +120,7 @@ const navigateToTicket = (id: number) => {
       <Column field="id" header="ID" sortable class="font-mono w-20" />
 
       <Column field="customer.name" header="Klient" sortable>
-        <template #body="{ data }: { data: Ticket }">
+        <template #body="{ data }: { data: Ticket}">
           <div class="flex flex-col">
             <span class="font-medium text-white-900">{{ data.customer.name }}</span>
             <span class="text-xs text-white-500">{{ data.customer.email }}</span>
