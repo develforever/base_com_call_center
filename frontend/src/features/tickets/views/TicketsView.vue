@@ -2,16 +2,16 @@
 import { ref, onMounted, watch, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { FilterMatchMode } from '@primevue/core/api'
-import { priorityLabels, statusLabels, useTicketsStore } from '@/stores/useTicketsStore'
-import { TicketPriority, TicketStatus } from '@/types/types'
-import type { Ticket } from '@/types/types'
-import { RouteNames } from '@/router'
+import { useTicketsStore } from '@/features/tickets/stores/useTicketsStore'
+
 import {
   PRIORITY_SEVERITY,
   STATUS_SEVERITY,
   statusOptions,
   priorityOptions,
-} from '@/composables/useTicketFormatter'
+  statusLabels,
+  priorityLabels,
+} from '@/features/tickets/composables/useTicketFormatter'
 
 import {
   DataTable,
@@ -24,6 +24,8 @@ import {
   Select,
   useToast,
 } from 'primevue'
+import type { Ticket, TicketPriority, TicketStatus } from '@/api/services/tickets.service'
+import { RouteNames } from '../router'
 
 const toast = useToast()
 const store = useTicketsStore()

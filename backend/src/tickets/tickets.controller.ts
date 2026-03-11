@@ -39,8 +39,18 @@ export class TicketsController extends Controller {
         return updatedTicket;
     }
 
+    @Get("{id}")
+    public async getTicketById(@Path() id: number): Promise<Ticket | null> {
+        const ticket = TicketService.getAll().find(t => t.id === id);
+        return ticket || null;
+    }
+
     @Delete("{id}")
-    public async deleteTicket(@Path() id: number): Promise<void> {
-        TicketService.remove(id);
+    public async deleteTicket(@Path() id: number): Promise<boolean> {
+        const ticket = TicketService.getAll().find(t => t.id === id);
+        if (!ticket) return false;
+        const updatedTicket = { ...ticket, updatedAt: new Date().toISOString() };
+        TicketService.update(id, updatedTicket);
+        return true;
     }
 }

@@ -25,4 +25,14 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  server: {
+    host: true,         // Pozwala na dostęp spoza kontenera
+    port: 5173,         // Port wewnątrz kontenera
+    watch: {
+      usePolling: true, // Niezbędne, jeśli Docker działa na Windows/macOS (problemy z eventami systemu plików)
+    },
+    hmr: {
+      clientPort: 8080, // Przeglądarka łączy się przez Nginx na tym porcie
+    },
+  },
 })

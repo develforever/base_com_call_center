@@ -42,35 +42,36 @@ const models: TsoaRoute.Models = {
             "priority": {"ref":"TicketPriority","required":true},
             "createdAt": {"dataType":"string","required":true},
             "updatedAt": {"dataType":"string","required":true},
+            "deletedAt": {"dataType":"string"},
             "assignedTo": {"dataType":"string","required":true},
             "customer": {"ref":"Customer","required":true},
         },
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_Ticket.Exclude_keyofTicket.id-or-createdAt-or-updatedAt__": {
+    "Pick_Ticket.Exclude_keyofTicket.id-or-createdAt-or-updatedAt-or-deletedAt__": {
         "dataType": "refAlias",
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"title":{"dataType":"string","required":true,"validators":{"minLength":{"value":3},"maxLength":{"value":50}}},"description":{"dataType":"string","required":true,"validators":{"minLength":{"value":15},"maxLength":{"value":255}}},"status":{"ref":"TicketStatus","required":true},"priority":{"ref":"TicketPriority","required":true},"assignedTo":{"dataType":"string","required":true},"customer":{"ref":"Customer","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Omit_Ticket.id-or-createdAt-or-updatedAt_": {
+    "Omit_Ticket.id-or-createdAt-or-updatedAt-or-deletedAt_": {
         "dataType": "refAlias",
-        "type": {"ref":"Pick_Ticket.Exclude_keyofTicket.id-or-createdAt-or-updatedAt__","validators":{}},
+        "type": {"ref":"Pick_Ticket.Exclude_keyofTicket.id-or-createdAt-or-updatedAt-or-deletedAt__","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "TicketCreationParams": {
         "dataType": "refAlias",
-        "type": {"ref":"Omit_Ticket.id-or-createdAt-or-updatedAt_","validators":{}},
+        "type": {"ref":"Omit_Ticket.id-or-createdAt-or-updatedAt-or-deletedAt_","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Partial_Omit_Ticket.id-or-createdAt-or-updatedAt__": {
+    "Partial_Omit_Ticket.id-or-createdAt-or-updatedAt-or-deletedAt__": {
         "dataType": "refAlias",
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"title":{"dataType":"string","validators":{"minLength":{"value":3},"maxLength":{"value":50}}},"description":{"dataType":"string","validators":{"minLength":{"value":15},"maxLength":{"value":255}}},"status":{"ref":"TicketStatus"},"priority":{"ref":"TicketPriority"},"assignedTo":{"dataType":"string"},"customer":{"ref":"Customer"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "TicketUpdateParams": {
         "dataType": "refAlias",
-        "type": {"ref":"Partial_Omit_Ticket.id-or-createdAt-or-updatedAt__","validators":{}},
+        "type": {"ref":"Partial_Omit_Ticket.id-or-createdAt-or-updatedAt-or-deletedAt__","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
@@ -172,6 +173,36 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'updateTicket',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsTicketsController_getTicketById: Record<string, TsoaRoute.ParameterSchema> = {
+                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+        };
+        app.get('/api/v1/tickets/:id',
+            ...(fetchMiddlewares<RequestHandler>(TicketsController)),
+            ...(fetchMiddlewares<RequestHandler>(TicketsController.prototype.getTicketById)),
+
+            async function TicketsController_getTicketById(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsTicketsController_getTicketById, request, response });
+
+                const controller = new TicketsController();
+
+              await templateService.apiHandler({
+                methodName: 'getTicketById',
                 controller,
                 response,
                 next,

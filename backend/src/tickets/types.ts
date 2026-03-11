@@ -48,9 +48,10 @@ export interface Ticket {
     priority: TicketPriority,
     createdAt: string,
     updatedAt: string,
+    deletedAt?: string,
     assignedTo: string,
     customer: Customer
 }
 
-export type TicketCreationParams = Omit<Ticket, 'id' | 'createdAt' | 'updatedAt'>;
-export type TicketUpdateParams = Partial<Omit<Ticket, 'id' | 'createdAt' | 'updatedAt'>>;
+export type TicketCreationParams = Omit<Ticket, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt'>;
+export type TicketUpdateParams = Partial<Omit<Ticket, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt'>>;

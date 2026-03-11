@@ -1,10 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
 import { mount } from '@vue/test-utils'
-import TicketsView from '../TicketsView.vue'
+import TicketsView from '@/views/TicketsView.vue'
 import { useTicketsStore } from '@/stores/useTicketsStore'
-import { TicketsService } from '@/services/useTicketService'
-import { TicketPriority, TicketStatus, type Ticket } from '@/types/types'
+import { TicketsService, type Ticket } from '@/api/services/tickets.service'
+import { TicketStatus, TicketPriority } from '@/types/api'
 
 describe('TicketsView', () => {
   beforeEach(() => {
@@ -17,8 +17,8 @@ describe('TicketsView', () => {
         id: 1,
         title: 'Testowy ticket',
         description: 'Testowa opis zgłoszenia.',
-        status: TicketStatus.NEW,
-        priority: TicketPriority.HIGH,
+        status: TicketStatus.new,
+        priority: TicketPriority.high,
         createdAt: '2024-05-09T09:20:00Z',
         updatedAt: '2024-05-09T09:30:00Z',
         assignedTo: 'Patrycja Nowak',
