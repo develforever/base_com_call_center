@@ -59,24 +59,19 @@ const onFormSubmit = ({ values, valid }: { values: Record<string, string>; valid
 
 <template>
   <div class="flex items-center flex-col mt-6 gap-8">
-    <Form
-      v-slot="$form"
-      :initialValues="initialValues"
-      :resolver="resolver"
-      @submit="onFormSubmit"
-      class="flex flex-col gap-4 w-full sm:w-56"
-    >
+    <Form v-slot="$form" :initialValues="initialValues" :resolver="resolver" @submit="onFormSubmit"
+      class="flex flex-col gap-4 w-full sm:w-56">
       <div class="flex flex-col gap-1">
-        <InputText name="username" type="text" placeholder="Username" fluid />
+        <InputText name="username" type="text" placeholder="Username" autocomplete="username" fluid />
         <Message v-if="$form.username?.invalid" severity="error" size="small" variant="simple">{{
           $form.username.error?.message
-        }}</Message>
+          }}</Message>
       </div>
       <div class="flex flex-col gap-1">
-        <InputText name="password" type="password" placeholder="Password" fluid />
+        <InputText name="password" type="password" placeholder="Password" autocomplete="current-password" fluid />
         <Message v-if="$form.password?.invalid" severity="error" size="small" variant="simple">{{
           $form.password.error?.message
-        }}</Message>
+          }}</Message>
       </div>
       <Button type="submit" severity="secondary" label="Login" />
     </Form>

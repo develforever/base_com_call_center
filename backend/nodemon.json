@@ -3,5 +3,8 @@
         "src"
     ],
     "ext": "ts",
-    "exec": "ts-node"
+    "ignore": [
+        "src/routes.ts"
+    ],
+    "exec": "npm run tsoa && ts-node"
 }
